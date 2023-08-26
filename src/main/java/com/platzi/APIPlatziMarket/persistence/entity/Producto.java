@@ -27,6 +27,15 @@ public class Producto {
 
     private Boolean estado;
 
+    //Relaciones entre Tablas
+
+    /*
+    * Relacion Prdoucto Categoria, (Muchos prodcutos pueden tener una categoria);
+    */
+    @ManyToOne
+    @JoinColumn(name = "id_categoria", insertable = false, updatable = false)
+    private Categoria categoria;
+
     //Getters & Setters
 
 
