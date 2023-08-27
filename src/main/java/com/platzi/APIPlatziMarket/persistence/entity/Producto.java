@@ -30,7 +30,18 @@ public class Producto {
     //Relaciones entre Tablas
 
     /*
-    * Relacion Prdoucto Categoria, (Muchos prodcutos pueden tener una categoria);
+    * Relacion Producto-Categoria,
+    * (Muchos productos pueden tener una categoria);
+    * M:1
+    *
+    * @ManyToOne -> indica relacion Muchos a uno
+    * @JoinColumn(
+    *       name ="llaveForanea",
+    *       insertable= fase --> para que no se pueda insertar una nueva categoria desde produtos
+    *       updatable = fase --> para que nos se pueda Actualizar la tabla categoria desde producto
+    * )
+    *
+    * private Categoria categoria -->Este atributo indicara relacion con la clase categoria
     */
     @ManyToOne
     @JoinColumn(name = "id_categoria", insertable = false, updatable = false)

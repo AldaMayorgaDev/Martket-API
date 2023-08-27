@@ -19,7 +19,16 @@ public class Cliente {
     @Column(name = "correo_electronico")
     private String correoElectronico;
 
-    //Relacion
+    //Relacion entre tablas
+
+    /*
+     * Relacion Cliente-Compra,
+     * (Un Cliente puede tener Muchas Compras );
+     * 1:M
+     *
+     * @OneToMany(mappedBy = "AtributoQueInidcaRelacionEnLaOtraClase") -> indica relacion Uno a Muchos
+     * private List<Compra> compras; --> Es una lista de Compras
+     */
 
     @OneToMany(mappedBy = "cliente")
     private List<Compra> compras;

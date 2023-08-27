@@ -26,11 +26,40 @@ public class ComprasProducto {
     private Double total;
     private Boolean estado;
 
-    //Relaciones
+    //Relaciones entre Tablas
+
+    /*
+     * Relacion CompraProductos-Compra,
+     * (Muchas CompraProductos pueden ser Una Compra);
+     * M:1
+     *
+     * @ManyToOne -> indica relacion Muchos a uno
+     * @JoinColumn(
+     *       name ="llaveForanea",
+     *       insertable= fase --> para que no se pueda insertar una nueva categoria desde produtos
+     *       updatable = fase --> para que nos se pueda Actualizar la tabla categoria desde producto
+     * )
+     *
+     * private Compra compra -->Este atributo indicara relacion con la clase compra
+     */
     @ManyToOne
     @JoinColumn(name="id_compra", insertable = false, updatable= false)
     private Compra compra;
 
+    /*
+     * Relacion CompraProductos-Producto,
+     * (Muchas CompraProductos pueden ser Un Produco);
+     * M:1
+     *
+     * @ManyToOne -> indica relacion Muchos a uno
+     * @JoinColumn(
+     *       name ="llaveForanea",
+     *       insertable= fase --> para que no se pueda insertar una nueva categoria desde produtos
+     *       updatable = fase --> para que nos se pueda Actualizar la tabla categoria desde producto
+     * )
+     *
+     * private Producto pruducto -->Este atributo indicara relacion con la clase producto
+     */
     @ManyToOne
     @JoinColumn(name="id_producto", insertable = false)
     private Producto producto;

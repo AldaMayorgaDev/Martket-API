@@ -27,13 +27,37 @@ public class Compra {
     private Character estado;
 
 
-    //Relacion
+
+    //Relaciones entre Tablas
+
+    /*
+     * Relacion Compra-Cliente,
+     * (Muchas Compras pueden pertenecer a Un Cliente);
+     * M:1
+     *
+     * @ManyToOne -> indica relacion Muchos a uno
+     * @JoinColumn(
+     *       name ="llaveForanea",
+     *       insertable= fase --> para que no se pueda insertar una nueva categoria desde produtos
+     *       updatable = fase --> para que nos se pueda Actualizar la tabla categoria desde producto
+     * )
+     *
+     * private Cliente cliente -->Este atributo indicara relacion con la clase Cliente
+     */
     @ManyToOne
     @JoinColumn(name="id_cliente", insertable = false, updatable = false)
     private Cliente cliente;
 
 
-    @OneToMany(mappedBy = "producto")
+    /*
+     * Relacion Compra-ComprasProducto,
+     * (Una Compra puede tener Muchas ComprasProducto );
+     * 1:M
+     *
+     * @OneToMany(mappedBy = "AtributoQueInidcaRelacionEnLaOtraClase") -> indica relacion Uno a Muchos
+     * private List<ComprasProducto> productos; --> Es una lista de ComprasProductos
+     */
+    @OneToMany(mappedBy = "compra")
     private List<ComprasProducto> productos;
 
 

@@ -17,6 +17,15 @@ public class Categoria {
 
 
     //Relacion entre tablas
+
+    /*
+     * Relacion Categoria-Producto,
+     * (Una categoria puede tener Muchos productos );
+     * 1:M
+     *
+     * @OneToMany(mappedBy = "AtributoQueInidcaRelacionEnLaOtraClase") -> indica relacion Uno a Muchos
+     * private List<Producto> productos; --> Es una lista de Productos
+     */
     @OneToMany(mappedBy = "categoria")
     private List<Producto> productos;
     //Getters y Setters
