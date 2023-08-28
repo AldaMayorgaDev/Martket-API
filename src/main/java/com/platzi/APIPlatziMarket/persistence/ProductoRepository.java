@@ -1,7 +1,10 @@
 package com.platzi.APIPlatziMarket.persistence;
 
+import com.platzi.APIPlatziMarket.domain.Product;
+import com.platzi.APIPlatziMarket.domain.repository.ProductRespository;
 import com.platzi.APIPlatziMarket.persistence.crud.ProductoCrudRepository;
 import com.platzi.APIPlatziMarket.persistence.entity.Producto;
+import com.platzi.APIPlatziMarket.persistence.mapper.ProductMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,38 +12,47 @@ import java.util.Optional;
 
 
 @Repository //Con la anotacion Repository indicamos a Spring que esta clase se encarga de interactuar con la BD
-public class ProductoRepository {
+public class ProductoRepository implements ProductRespository {
     private ProductoCrudRepository productoCrudRepository;
+    private ProductMapper mapper;
 
     //Metodo que Recupera todos los productos de la BD
-    public List<Producto> getAll(){
-        return (List<Producto>) productoCrudRepository.findAll();
+    @Override
+    public List<Product> getAll(){
+        List<Producto> productos = (List<Producto>) productoCrudRepository.findAll();
+        return mapper.toProducts(productos);
     }
 
     //Metodo que retorna una lista con todos los productos que pertenecen a una categoria especifica utlizando el QueryMethod creado
-
-    public List<Producto> getByCategory(int idCategoria){
-        return productoCrudRepository.findByIdCategoriaOrderByNombreAsc(idCategoria);
+    @Override
+    public Optional<List<Product>> getByCategory(int CategoryId){
+        List<Producto> productos= productoCrudRepository.findByIdCategoriaOrderByNombreAsc(CategoryId);
+        return Optional.of(mapper.toProducts(productos));
     }
 
     // Metodo que recupera todos los productos que su cantidad en stock son menores a (cantidad) y que su estado sea igual a true
-    public Optional<List<Producto>> getEscasos(int cantidad){
-        return productoCrudRepository.findByCantidadStockLessThanAndEstado(cantidad, true);
+    @Override
+    public Optional<List<Product>> getScarseProducts(int quantity) {
+        Optional<List<Producto>>productos = productoCrudRepository.findByCantidadStockLessThanAndEstado(quantity, true);
+        return productos.map(prods -> mapper.toProducts(prods));
     }
 
     //Metodo que recupera un producto dado su ID
-    public Optional<Producto> getProducto(int idProducto){
-        return productoCrudRepository.findById(idProducto);
+    @Override
+    public Optional<Product> getProduct(int productId) {
+        return productoCrudRepository.findById(productId).map(producto -> mapper.toProduct(producto));
     }
 
     //Metodo que Guarda un producto
-    public Producto saveProducto(Producto productoAGuardar){
-        return productoCrudRepository.save(productoAGuardar);
-    };
+    @Override
+    public Product saveProduct(Product product) {
+        Producto producto = mapper.toProducto(product);
+        return mapper.toProduct(productoCrudRepository.save(producto));
+    }
 
     //Metodo que elimina un producto por su id
-
-    public void deleteProducto(int idProducto){
-        productoCrudRepository.deleteById(idProducto);
+    @Override
+    public void deleteProduct(int ProductId) {
+        productoCrudRepository.deleteById(ProductId);
     }
 }
